@@ -3,5 +3,5 @@ option('GLFW_BUILD_TESTS', type: 'boolean', value: false, description: 'Build th
 option('GLFW_BUILD_DOCS', type: 'boolean', value: false, description: 'Build the GLFW documentation')
 option('GLFW_VULKAN_STATIC', type: 'boolean', value: false, description: 'Assume the Vulkan loader is linked with the application')
 option('GLFW_USE_OSMESA', type: 'boolean', value: false, description: 'Use OSMesa for offscreen context creation')
-option('GLFW_USE_HYBRID_HPG', type: 'boolean', value: false, description: 'Force use of high-performance GPU on hybrid systems')
+option('GLFW_USE_HYBRID_HPG', type: 'boolean', value: true, description: 'Force use of high-performance GPU on hybrid systems')
 option('GLFW_USE_WAYLAND', type: 'boolean', value: false, description: 'Use Wayland for window creation')

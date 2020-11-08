@@ -37,6 +37,8 @@
 #if defined(_MSC_VER)
  // Make MS math.h define M_PI
  #define _USE_MATH_DEFINES
+#else
+ #define __USE_MISC
 #endif
 
 #include <math.h>

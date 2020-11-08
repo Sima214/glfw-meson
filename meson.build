@@ -12,6 +12,7 @@ ADD_DEFINE_VALUE_TEMPLATE = '-D@0@=@1@'
 compiler = meson.get_compiler('c')
 
 export_defs = []
+extra_libs = []
 
 if get_option('default_library') == 'shared' or get_option('default_library') == 'both'
     add_project_arguments(ADD_DEFINE_TEMPLATE.format('_GLFW_BUILD_DLL'), language: ['c'])
@@ -51,10 +52,11 @@ elif target_machine.system() == 'windows'
     message('Using Win32 for window creation')
     wm = 'win32'
     glfw_conf.set10('_GLFW_WIN32', true)
-    wm_dep = declare_dependency()
-    add_project_arguments(ADD_DEFINE_TEMPLATE.format('_UNICODE'), language: ['c'])
-    add_project_arguments(ADD_DEFINE_TEMPLATE.format('UNICODE'), language: ['c'])
-    add_project_arguments(ADD_DEFINE_TEMPLATE.format('_CRT_SECURE_NO_WARNINGS'), language: ['c'])
+    wm_dep = declare_dependency(compile_args: [
+        ADD_DEFINE_TEMPLATE.format('_UNICODE'),
+        ADD_DEFINE_TEMPLATE.format('UNICODE'),
+        ADD_DEFINE_TEMPLATE.format('_CRT_SECURE_NO_WARNINGS')
+    ])
     add_project_arguments(ADD_DEFINE_VALUE_TEMPLATE.format('WINVER', '0x0501'), language: ['c'])
     if not compiler.check_header('dinput.h')
         error('DirectX 9 headers not found; install DirectX 9 SDK')
@@ -92,6 +94,10 @@ else
     error('No supported platform was detected')
 endif
 
+extra_libs += compiler.find_library('m', required : false)
+extra_libs += compiler.find_library('dl', required : false)
+extra_libs += compiler.find_library('rt', required : false)
+
 # Add the Vulkan loader as a dependency if necessary
 if get_option('GLFW_VULKAN_STATIC')
     glfw_conf.set10('_GLFW_VULKAN_STATIC', true)
@@ -105,6 +111,10 @@ endif
 # Add subdirectories
 subdir('include')
 subdir('src')
+
+if get_option('GLFW_BUILD_EXAMPLES') or get_option('GLFW_BUILD_TESTS')
+    subdir('deps')
+endif
 
 if get_option('GLFW_BUILD_EXAMPLES')
     subdir('examples')

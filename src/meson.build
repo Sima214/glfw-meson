@@ -63,7 +63,12 @@ configure_file(input: 'glfw_config.h.in', output: 'glfw_config.h', configuration
 add_project_arguments(ADD_DEFINE_TEMPLATE.format('_GLFW_USE_CONFIG_H'), language: ['c', 'objc'])
 
 glfw_lib = library('glfw', src, 
-                   dependencies: [thread_dep, wm_dep, vulkan_dep],
+                   include_directories: glfw_inc,
+                   dependencies: [extra_libs, thread_dep, wm_dep, vulkan_dep],
                    build_by_default: false,
                    gnu_symbol_visibility: 'hidden',
                    install: true)
+
+glfw_dep = declare_dependency(link_with: glfw_lib,
+                              include_directories: glfw_inc,
+                              dependencies: [extra_libs, thread_dep, wm_dep, vulkan_dep])

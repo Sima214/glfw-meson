@@ -1,1 +1,1 @@
-glfw_inc = include_directories('GLFW')
+glfw_inc = include_directories('.')
