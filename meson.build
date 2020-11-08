@@ -56,7 +56,7 @@ elif target_machine.system() == 'windows'
     add_project_arguments(ADD_DEFINE_TEMPLATE.format('UNICODE'), language: ['c'])
     add_project_arguments(ADD_DEFINE_TEMPLATE.format('_CRT_SECURE_NO_WARNINGS'), language: ['c'])
     add_project_arguments(ADD_DEFINE_VALUE_TEMPLATE.format('WINVER', '0x0501'), language: ['c'])
-    if not compiler.check_header('dinput.h') or not compiler.check_header('Xinput.h')
+    if not compiler.check_header('dinput.h')
         error('DirectX 9 headers not found; install DirectX 9 SDK')
     endif
 elif target_machine.system() == 'darwin'
