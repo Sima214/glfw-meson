@@ -55,8 +55,10 @@ elif target_machine.system() == 'windows'
     wm_dep = declare_dependency(compile_args: [
         ADD_DEFINE_TEMPLATE.format('_UNICODE'),
         ADD_DEFINE_TEMPLATE.format('UNICODE'),
-        ADD_DEFINE_TEMPLATE.format('_CRT_SECURE_NO_WARNINGS')
+        ADD_DEFINE_TEMPLATE.format('NOMINMAX')
     ])
+    add_project_arguments(ADD_DEFINE_TEMPLATE.format('WIN32_LEAN_AND_MEAN'), language: ['c'])
+    add_project_arguments(ADD_DEFINE_TEMPLATE.format('_CRT_SECURE_NO_WARNINGS'), language: ['c'])
     add_project_arguments(ADD_DEFINE_VALUE_TEMPLATE.format('WINVER', '0x0501'), language: ['c'])
     if not compiler.check_header('dinput.h')
         error('DirectX 9 headers not found; install DirectX 9 SDK')
